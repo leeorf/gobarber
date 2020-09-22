@@ -30,17 +30,14 @@ The application is divided in 2 systems:
 # :question: About the repository
 
 This repository is divided in 3 different folders, each one containing more details about the technologies that had been used.
-- **Backend**: REST API built with Node.js and TypeScript. The API is responsible for the application CRUD, data persistent and to handle exceptions. The API feeds both the web frontend and mobile. 
-
+- **Backend**: REST API built with Node.js and TypeScript. The API is responsible for the application CRUD, data persistent and to handle exceptions. The API feeds both the web frontend and mobile.</br>
 Too see the **api**, click here: [GoBarber Backend](./backend).
 
--  **Frontend**: Web page built with ReactJS and TypeScript. The web page allows the barber to manage all scheduled services.
-
+-  **Frontend**: Web page built with ReactJS and TypeScript. The web page allows the barber to manage all scheduled services.</br>
 - [ ] *In Progress:*</br>
 ~~Too see the *web client*, click here: [GoBarber Web](../frontend)~~.</br>
 
-- **Mobile**: Mobile app built with React Native and TypeScript. The app allows users to schedule services with barbers registered in the platform.
-
+- **Mobile**: Mobile app built with React Native and TypeScript. The app allows users to schedule services with barbers registered in the platform.</br>
 - [ ] *In Progress:*</br>
 ~~Too see the *mobile client*, click here: [GoBarber Mobile](../mobile).~~
 
