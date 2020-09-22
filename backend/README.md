@@ -54,7 +54,15 @@ Technologies used to develop the API:
 
 # :traffic_light: API Endpoints
 
-Too see **how to use the API**, click here: [API Endpoints](./API-endpoints.md).
+These endpoints allow you to organize appointments between the barbers and customers, and also to manage the user profile (either barber or customer).
+
+Some routes require the user to be logged in with a valid JWT Token. To generate a JWT the user must login in the `/sessions` route and the token must be passed as a **Bearer Token**.
+
+To see the endpoints click the button below or import the [Insomnia.json](./Insomnia.json) file on Insomnia.
+
+<p align="center">
+<a href="https://insomnia.rest/run/?label=GoBarber%20API&uri=https%3A%2F%2Fgithub.com%2Fleeorf%2Fgobarber%2Fblob%2Fmaster%2Fbackend%2FInsomnia.json" target="_blank"><img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia"></a>
+</p>
 
 # :gear: Running the Backend
 
@@ -64,7 +72,7 @@ Too see **how to use the API**, click here: [API Endpoints](./API-endpoints.md).
 - [Yarn](https://classic.yarnpkg.com/lang/en/) or [npm](https://www.npmjs.com)
 - [Docker](https://www.docker.com)
 
-### Follow the steps below:
+### First steps:
 ``` bash
 # Install the dependencies
 $ yarn
