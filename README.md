@@ -43,9 +43,9 @@ This repository is divided in 3 different folders, each one containing more deta
 - [Yarn](https://classic.yarnpkg.com/lang/en/) or [npm](https://www.npmjs.com) to install packages.
 - iOS or/and Android device or emulator.
 - Database:
- - [PostgreSQL](https://www.postgresql.org) as a relational database.
- - [MongoDB](https://www.mongodb.com) as a non-relational database.
- - [Redis](https://redis.io) to use as a cache.
+  - [PostgreSQL](https://www.postgresql.org) as a relational database.
+  - [MongoDB](https://www.mongodb.com) as a non-relational database.
+  - [Redis](https://redis.io) to use as a cache.
 
 >Obs: I recommend to use [Docker](https://www.docker.com) to run PostgreSQL, MongoDB and Redis.
 
