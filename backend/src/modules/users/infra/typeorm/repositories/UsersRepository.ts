@@ -44,6 +44,8 @@ class UsersRepository implements IUsersRepository {
       users = await this.ormRepository.find();
     }
 
+    users.map(user => delete user.password);
+
     return users;
   }
 
