@@ -46,12 +46,9 @@ class ResetPasswordService {
     user.password = await this.hashProvider.generateHash(password);
 
     await this.usersRepository.save(user);
+
+    await this.userTokensRepository.deleteToken(userToken);
   }
 }
 
 export default ResetPasswordService;
-
-// TODO:
-// 2h expiração
-// userToken inexistente
-// user inexistente
