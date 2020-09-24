@@ -84,6 +84,18 @@ class AppointmentsRepository implements IAppointmentsRepository {
             `to_char(${dateFieldName}, 'DD-MM-YYYY') = '${parsedDay}-${parsedMonth}-${year}'`,
         ),
       },
+      /**
+       * When using TypeORM, when we load a relationship between 2 tables
+       * (either loading through the entity `eager/lazy` or through the repository
+       * with `relations`), typeORM uses a strategy called Eager Loading.
+       *
+       * Imagine that we made a query that return a list of 10 appointments,
+       * each appoint scheduled by a different user. Thus, we have 10 appointments,
+       * with 10 different user_ids.
+       *
+       * Using Eager Loading,  instead of making 10 different queries using the
+       * user_ids to return the users, it will only do one query with 10 user_ids.
+       */
       relations: ['user'],
     });
 
