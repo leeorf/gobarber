@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import { FiLogIn, FiMail } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
@@ -14,12 +14,14 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 import { Container, Content, Background, AnimationContainer } from './styles';
+import api from '../../services/api';
 
 interface ForgotPasswordFormData {
   email: string;
 }
 
 const ForgotPassword: React.FC = () => {
+  const [loading, setLoading] = useState(false);
   const formRef = useRef<FormHandles>(null);
 
   const { addToast } = useToast();
@@ -27,6 +29,8 @@ const ForgotPassword: React.FC = () => {
   const handleSubmit = useCallback(
     async (data: ForgotPasswordFormData) => {
       try {
+        setLoading(true);
+
         // Set erros to an empty object every time we try to do a valadition
         // otherwise when we get sucess, we will not change de error messages
         formRef.current?.setErrors({});
@@ -41,9 +45,16 @@ const ForgotPassword: React.FC = () => {
           abortEarly: false,
         });
 
-        // Password recovery
+        await api.post('/password/forgot', {
+          email: data.email,
+        });
 
-        // history.push('/dashboard');
+        addToast({
+          type: 'success',
+          title: 'E-mail de recuperação de senha enviado',
+          description:
+            'Um e-mail com instruções para recuperar a sua senha foi enviado para a sua caixa de entrada.',
+        });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -56,6 +67,12 @@ const ForgotPassword: React.FC = () => {
           description:
             'Ocorreu um erro ao tentar realizar a recuperação de senha, tente novamente.',
         });
+        /**
+         * finally is used when we want something to happen either if our code
+         * enter the "try" or "catch"
+         */
+      } finally {
+        setLoading(false);
       }
     },
     [addToast],
@@ -71,7 +88,9 @@ const ForgotPassword: React.FC = () => {
 
             <Input name="email" icon={FiMail} placeholder="E-mail" />
 
-            <Button type="submit">Recuperar senha</Button>
+            <Button loading={loading} type="submit">
+              Recuperar senha
+            </Button>
           </Form>
 
           <Link to="/">

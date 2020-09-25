@@ -3,7 +3,18 @@ import { animated } from 'react-spring';
 
 interface ContainerProps {
   type?: 'success' | 'error' | 'info';
-  $hasDescription: boolean;
+  /**
+   * When we pass a bolean prop to a component, we need to be careful to not
+   * pass this attribute to the HTML element, because HTML doest not understand
+   * boolean.
+   * The warning when this happens is:
+   * "React does not recognize the `prop_name` prop on a DOM element."
+   *
+   * To fix this, we transform a boolean into a number. True will be represented
+   * as 1 and false as 0
+   *
+   */
+  hasdescription: number;
 }
 
 const toastTypeVariations = {
@@ -63,7 +74,7 @@ export const Container = styled(animated.div)<ContainerProps>`
   }
 
   ${props =>
-    !props.$hasDescription &&
+    !props.hasdescription &&
     css`
       align-items: center;
 
