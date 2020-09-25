@@ -99,8 +99,6 @@ class AppointmentsRepository implements IAppointmentsRepository {
       relations: ['user'],
     });
 
-    appointments.map(appointment => delete appointment.user.password);
-
     return appointments;
   }
 

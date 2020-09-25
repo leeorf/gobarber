@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 
 import ListProviderAppointmentsService from '@modules/appointments/services/ListProviderAppointmentsService';
 
@@ -27,6 +28,7 @@ export default class ProviderAppointmentsController {
       year: Number(year),
     });
 
-    return response.json(appointments);
+    // When appointments come from cache, and not database, classToClass doest not work
+    return response.json(classToClass(appointments));
   }
 }
