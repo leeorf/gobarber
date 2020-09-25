@@ -56,7 +56,7 @@ Technologies used to develop the API:
 
 These endpoints allow you to organize appointments between the barbers and customers, and also to manage the user profile (either barber or customer).
 
-Some routes require the user to be logged in with a valid JWT Token. To generate a JWT the user must login in the `/sessions` route inside `Users` folder.
+Some routes require the user to be logged in with a valid JWT Token. To generate a JWT the user must login in the `POST Authenticate` route inside `Users` folder.
 
 To see the endpoints click the button below or import the [Insomnia.json](./Insomnia.json) file on Insomnia.
 
