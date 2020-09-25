@@ -65,7 +65,7 @@ const ForgotPassword: React.FC = () => {
           type: 'error',
           title: 'Erro na recuperação de senha',
           description:
-            'Ocorreu um erro ao tentar realizar a recuperação de senha, tente novamente.',
+            'O email inserido não está associado à nenhum usuário. Por favor, tente novamente ou cadastre-se',
         });
         /**
          * finally is used when we want something to happen either if our code

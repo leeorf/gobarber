@@ -84,4 +84,15 @@ export const Background = styled.div`
   flex: 1;
   background: url(${signUpBackground}) no-repeat center;
   background-size: cover;
+
+  @keyframes backgroundOpacity {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  animation: 1.5s ease-in backgroundOpacity;
 `;
