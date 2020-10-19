@@ -1,4 +1,4 @@
-import { startOfHour, isBefore, getHours, format } from 'date-fns';
+import { startOfHour, isBefore, getHours, format, isWeekend } from 'date-fns';
 import { injectable, inject } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 
@@ -36,6 +36,10 @@ class CreateAppointmentService {
     date,
   }: IRequestDTO): Promise<Appointment> {
     const appointmentDate = startOfHour(date);
+
+    if (isWeekend(date)) {
+      throw new AppError("You can't create an appointment on weekend day");
+    }
 
     if (isBefore(appointmentDate, Date.now())) {
       throw new AppError("You can't create an appointment on a past date");
