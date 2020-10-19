@@ -40,7 +40,7 @@ const SignIn: React.FC = () => {
           password: Yup.string().required('Senha obritatória'),
           password_confirmation: Yup.string().oneOf(
             [Yup.ref('password')],
-            'As duas senhas devem ser iguais ',
+            'Confirmação de senha incorreta',
           ),
         });
 
