@@ -83,6 +83,9 @@ To see the endpoints click the button below or import the [Insomnia.json](./Inso
 
 ### First steps:
 ``` bash
+# Go to backend directory
+$ cd backend
+
 # Install the dependencies
 $ yarn
 
