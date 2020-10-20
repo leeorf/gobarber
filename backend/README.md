@@ -34,7 +34,7 @@ Too see the **web client**, click here: [GoBarber Web](../frontend).</br>
 
 Technologies used to develop the API:
 - [AWS SDK](https://aws.amazon.com/sdk-for-node-js/)
-- [bcryptjs](https://github.com/dcodeIO/bcrypt.js)
+- [Bcryptjs](https://github.com/dcodeIO/bcrypt.js)
 - [Celebrate](https://github.com/arb/celebrate)
 - [Class Transformer](https://github.com/typestack/class-transformer)
 - [CORS](https://github.com/expressjs/cors)
@@ -54,7 +54,7 @@ Technologies used to develop the API:
 - [Tsyringe](https://github.com/microsoft/tsyringe)
 - [TypeORM](https://typeorm.io/#/)
 - [TypeScript](https://www.typescriptlang.org)
-- [uuid v4](https://github.com/thenativeweb/uuidv4)
+- [Uuid v4](https://github.com/thenativeweb/uuidv4)
 
 Tools used to standardize code:
 - [EditorConfig](https://editorconfig.org)
