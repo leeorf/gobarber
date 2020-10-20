@@ -102,7 +102,7 @@ const SignUp: React.FC = () => {
 
           <Link to="/">
             <FiArrowLeft />
-            Voltar para logon
+            Voltar para login
           </Link>
         </AnimationContainer>
       </Content>

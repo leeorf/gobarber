@@ -200,123 +200,125 @@ const Dashboard: React.FC = () => {
           </button>
         </HeaderContent>
       </Header>
+      <Content>
+        <Schedule>
+          {isLoading ? (
+            <FetchDataLoader />
+          ) : (
+            <>
+              <h1>Horários agendados</h1>
+              <p>
+                {isToday(selectedDate) && <span>Hoje</span>}
+                <span>{selectedDateAsText}</span>
+                <span>{selectedWeekDay}</span>
+              </p>
 
-      {isLoading ? (
-        <FetchDataLoader />
-      ) : (
-        <Content>
-          <Schedule>
-            <h1>Horários agendados</h1>
-            <p>
-              {isToday(selectedDate) && <span>Hoje</span>}
-              <span>{selectedDateAsText}</span>
-              <span>{selectedWeekDay}</span>
-            </p>
-
-            {nextAppointment && (
-              <NextAppointment>
-                <strong>Agendamento a seguir</strong>
-                <div>
-                  <img
-                    src={nextAppointment.user.avatar_url}
-                    alt={nextAppointment.user.name}
-                  />
-
-                  <strong>{nextAppointment.user.name}</strong>
-                  <span>
-                    <FiClock size={24} />
-                    {nextAppointment.hourFormatted}
-                  </span>
-                </div>
-              </NextAppointment>
-            )}
-
-            <Section>
-              <strong>Manhã</strong>
-
-              {morningAppoitments.length === 0 && (
-                <p>Nenhum agendamento neste período</p>
-              )}
-
-              {morningAppoitments.map(appointment => (
-                <Appointment key={appointment.id}>
-                  <span>
-                    <FiClock />
-                    {appointment.hourFormatted}
-                  </span>
-
+              {nextAppointment && (
+                <NextAppointment>
+                  <strong>Atendimento a seguir</strong>
                   <div>
                     <img
-                      src={
-                        appointment.user.avatar_url ||
-                        'https://icon-library.net/images/no-profile-pic-icon/no-profile-pic-icon-27.jpg'
-                      }
-                      alt={appointment.user.name}
+                      src={nextAppointment.user.avatar_url}
+                      alt={nextAppointment.user.name}
                     />
 
-                    <strong>{appointment.user.name}</strong>
+                    <strong>{nextAppointment.user.name}</strong>
+                    <span>
+                      <FiClock size={24} />
+                      {nextAppointment.hourFormatted}
+                    </span>
                   </div>
-                </Appointment>
-              ))}
-            </Section>
-
-            <Section>
-              <strong>Tarde</strong>
-
-              {afternoonAppoitments.length === 0 && (
-                <p>Nenhum agendamento neste período</p>
+                </NextAppointment>
               )}
 
-              {afternoonAppoitments.map(appointment => (
-                <Appointment key={appointment.id}>
-                  <span>
-                    <FiClock />
-                    {appointment.hourFormatted}
-                  </span>
+              <Section>
+                <strong>Manhã</strong>
 
-                  <div>
-                    <img
-                      src={
-                        appointment.user.avatar_url ||
-                        'https://icon-library.net/images/no-profile-pic-icon/no-profile-pic-icon-27.jpg'
-                      }
-                      alt={appointment.user.name}
-                    />
+                {morningAppoitments.length === 0 && (
+                  <p>Nenhum agendamento neste período</p>
+                )}
 
-                    <strong>{appointment.user.name}</strong>
-                  </div>
-                </Appointment>
-              ))}
-            </Section>
-          </Schedule>
-          <Calendar>
-            <DayPicker
-              weekdaysShort={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
-              fromMonth={new Date()}
-              disabledDays={[{ daysOfWeek: [0, 6] }, ...disabledDays]}
-              modifiers={{
-                available: { daysOfWeek: [1, 2, 3, 4, 5] },
-              }}
-              onMonthChange={handleMonthChange}
-              selectedDays={selectedDate}
-              onDayClick={handleDateChange}
-              months={[
-                'Janeiro',
-                'Fevereiro',
-                'Março',
-                'Abril',
-                'Maio',
-                'Junho',
-                'Julho',
-                'Agosto',
-                'Setembro',
-                'Outubro',
-                'Novembro',
-                'Dezembro',
-              ]}
-            />
-          </Calendar>
-        </Content>
+                {morningAppoitments.map(appointment => (
+                  <Appointment key={appointment.id}>
+                    <span>
+                      <FiClock />
+                      {appointment.hourFormatted}
+                    </span>
+
+                    <div>
+                      <img
+                        src={
+                          appointment.user.avatar_url ||
+                          'https://icon-library.net/images/no-profile-pic-icon/no-profile-pic-icon-27.jpg'
+                        }
+                        alt={appointment.user.name}
+                      />
+
+                      <strong>{appointment.user.name}</strong>
+                    </div>
+                  </Appointment>
+                ))}
+              </Section>
+
+              <Section>
+                <strong>Tarde</strong>
+
+                {afternoonAppoitments.length === 0 && (
+                  <p>Nenhum agendamento neste período</p>
+                )}
+
+                {afternoonAppoitments.map(appointment => (
+                  <Appointment key={appointment.id}>
+                    <span>
+                      <FiClock />
+                      {appointment.hourFormatted}
+                    </span>
+
+                    <div>
+                      <img
+                        src={
+                          appointment.user.avatar_url ||
+                          'https://icon-library.net/images/no-profile-pic-icon/no-profile-pic-icon-27.jpg'
+                        }
+                        alt={appointment.user.name}
+                      />
+
+                      <strong>{appointment.user.name}</strong>
+                    </div>
+                  </Appointment>
+                ))}
+              </Section>
+            </>
+          )}
+        </Schedule>
+        <Calendar>
+          <DayPicker
+            weekdaysShort={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
+            fromMonth={new Date()}
+            disabledDays={[{ daysOfWeek: [0, 6] }, ...disabledDays]}
+            modifiers={{
+              available: { daysOfWeek: [1, 2, 3, 4, 5] },
+            }}
+            onMonthChange={handleMonthChange}
+            selectedDays={selectedDate}
+            onDayClick={handleDateChange}
+            months={[
+              'Janeiro',
+              'Fevereiro',
+              'Março',
+              'Abril',
+              'Maio',
+              'Junho',
+              'Julho',
+              'Agosto',
+              'Setembro',
+              'Outubro',
+              'Novembro',
+              'Dezembro',
+            ]}
+          />
+        </Calendar>
+      </Content>
       )}
     </Container>
   );

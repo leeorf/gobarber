@@ -98,5 +98,6 @@ export const AvatarInput = styled.div`
     height: 240px;
     width: 240px;
     border-radius: 50%;
+    object-fit: cover;
   }
 `;

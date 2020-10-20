@@ -41,6 +41,7 @@ export const Profile = styled.div`
     width: 56px;
     height: 56px;
     border-radius: 50%;
+    object-fit: cover;
   }
 
   div {
@@ -133,6 +134,7 @@ export const NextAppointment = styled.div`
       height: 80px;
       width: 80px;
       border-radius: 50%;
+      object-fit: cover;
     }
 
     strong {
@@ -209,6 +211,7 @@ export const Appointment = styled.div`
       height: 56px;
       width: 56px;
       border-radius: 50%;
+      object-fit: cover;
     }
 
     strong {
