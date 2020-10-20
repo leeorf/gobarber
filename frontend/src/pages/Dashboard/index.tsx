@@ -319,7 +319,6 @@ const Dashboard: React.FC = () => {
           />
         </Calendar>
       </Content>
-      )}
     </Container>
   );
 };
