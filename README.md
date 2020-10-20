@@ -34,10 +34,10 @@ This repository is divided in 3 different folders, each one containing more deta
 Too see the **api**, click here: [GoBarber Backend](./backend).
 
 -  **Frontend**: Web page built with ReactJS and TypeScript. The web page allows the barber to manage all scheduled services.</br>
-*In Progress:* ~~Too see the *web client*, click here: [GoBarber Web](./frontend)~~.</br>
+Too see the **web client**, click here: [GoBarber Web](./frontend).</br>
 
 - **Mobile**: Mobile app built with React Native and TypeScript. The app allows users to schedule services with barbers registered in the platform.</br>
-*In Progress:* ~~Too see the *mobile client*, click here: [GoBarber Mobile](./mobile).~~
+*In Progress:* ~~Too see the **mobile client**, click here: [GoBarber Mobile](./mobile).~~
 
 # :computer: Getting started
 
