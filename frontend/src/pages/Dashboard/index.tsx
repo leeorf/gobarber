@@ -9,6 +9,11 @@ import { parseISO } from 'date-fns/esm';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/auth';
 
+import FetchDataLoader from '../../components/FetchDataLoader';
+
+import logoImg from '../../assets/logo.svg';
+import api from '../../services/api';
+
 import {
   Container,
   Header,
@@ -21,9 +26,6 @@ import {
   Appointment,
   Calendar,
 } from './styles';
-
-import logoImg from '../../assets/logo.svg';
-import api from '../../services/api';
 
 interface MonthAvailabilityItem {
   day: number;
@@ -41,6 +43,7 @@ interface Appointment {
 }
 
 const Dashboard: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [monthAvailability, setMonthAvailability] = useState<
@@ -51,6 +54,7 @@ const Dashboard: React.FC = () => {
   const { signOut, user } = useAuth();
 
   useEffect(() => {
+    setIsLoading(true);
     api
       .get(`/providers/${user.id}/month-availability`, {
         params: {
@@ -60,10 +64,12 @@ const Dashboard: React.FC = () => {
       })
       .then(response => {
         setMonthAvailability(response.data);
+        setIsLoading(false);
       });
   }, [currentMonth, user.id]);
 
   useEffect(() => {
+    setIsLoading(true);
     api
       .get<Appointment[]>('/appointments/me', {
         params: {
@@ -81,6 +87,7 @@ const Dashboard: React.FC = () => {
         });
 
         setAppointments(appoitmentsFormatted);
+        setIsLoading(false);
       });
   }, [selectedDate]);
 
@@ -130,23 +137,41 @@ const Dashboard: React.FC = () => {
     );
   }, [appointments]);
 
-  const morningAppoitments = useMemo(() => {
-    return sortedAppointments.filter(appointment => {
-      return parseISO(appointment.date).getHours() < 12;
-    });
-  }, [sortedAppointments]);
-
-  const afternoonAppoitments = useMemo(() => {
-    return sortedAppointments.filter(appointment => {
-      return parseISO(appointment.date).getHours() >= 12;
-    });
-  }, [sortedAppointments]);
-
   const nextAppointment = useMemo(() => {
-    return sortedAppointments.find(appointment =>
-      isAfter(parseISO(appointment.date), new Date()),
+    return sortedAppointments.find(
+      appointment =>
+        isAfter(parseISO(appointment.date), new Date()) &&
+        isToday(parseISO(appointment.date)),
     );
   }, [sortedAppointments]);
+
+  const morningAppoitments = useMemo(() => {
+    let serializedAppointments = [...sortedAppointments];
+
+    if (nextAppointment && isToday(selectedDate)) {
+      serializedAppointments = sortedAppointments.filter(
+        appointment => appointment.id !== nextAppointment.id,
+      );
+    }
+
+    return serializedAppointments.filter(appointment => {
+      return parseISO(appointment.date).getHours() < 12;
+    });
+  }, [sortedAppointments, nextAppointment, selectedDate]);
+
+  const afternoonAppoitments = useMemo(() => {
+    let serializedAppointments = [...sortedAppointments];
+
+    if (nextAppointment && isToday(selectedDate)) {
+      serializedAppointments = sortedAppointments.filter(
+        appointment => appointment.id !== nextAppointment.id,
+      );
+    }
+
+    return serializedAppointments.filter(appointment => {
+      return parseISO(appointment.date).getHours() >= 12;
+    });
+  }, [sortedAppointments, nextAppointment, selectedDate]);
 
   return (
     <Container>
@@ -176,119 +201,123 @@ const Dashboard: React.FC = () => {
         </HeaderContent>
       </Header>
 
-      <Content>
-        <Schedule>
-          <h1>Horários agendados</h1>
-          <p>
-            {isToday(selectedDate) && <span>Hoje</span>}
-            <span>{selectedDateAsText}</span>
-            <span>{selectedWeekDay}</span>
-          </p>
+      {isLoading ? (
+        <FetchDataLoader />
+      ) : (
+        <Content>
+          <Schedule>
+            <h1>Horários agendados</h1>
+            <p>
+              {isToday(selectedDate) && <span>Hoje</span>}
+              <span>{selectedDateAsText}</span>
+              <span>{selectedWeekDay}</span>
+            </p>
 
-          {isToday(selectedDate) && nextAppointment && (
-            <NextAppointment>
-              <strong>Agendamento a seguir</strong>
-              <div>
-                <img
-                  src={nextAppointment.user.avatar_url}
-                  alt={nextAppointment.user.name}
-                />
-
-                <strong>{nextAppointment.user.name}</strong>
-                <span>
-                  <FiClock size={24} />
-                  {nextAppointment.hourFormatted}
-                </span>
-              </div>
-            </NextAppointment>
-          )}
-
-          <Section>
-            <strong>Manhã</strong>
-
-            {morningAppoitments.length === 0 && (
-              <p>Nenhum agendamento neste período</p>
-            )}
-
-            {morningAppoitments.map(appointment => (
-              <Appointment key={appointment.id}>
-                <span>
-                  <FiClock />
-                  {appointment.hourFormatted}
-                </span>
-
+            {nextAppointment && (
+              <NextAppointment>
+                <strong>Agendamento a seguir</strong>
                 <div>
                   <img
-                    src={
-                      appointment.user.avatar_url ||
-                      'https://icon-library.net/images/no-profile-pic-icon/no-profile-pic-icon-27.jpg'
-                    }
-                    alt={appointment.user.name}
+                    src={nextAppointment.user.avatar_url}
+                    alt={nextAppointment.user.name}
                   />
 
-                  <strong>{appointment.user.name}</strong>
+                  <strong>{nextAppointment.user.name}</strong>
+                  <span>
+                    <FiClock size={24} />
+                    {nextAppointment.hourFormatted}
+                  </span>
                 </div>
-              </Appointment>
-            ))}
-          </Section>
-
-          <Section>
-            <strong>Tarde</strong>
-
-            {afternoonAppoitments.length === 0 && (
-              <p>Nenhum agendamento neste período</p>
+              </NextAppointment>
             )}
 
-            {afternoonAppoitments.map(appointment => (
-              <Appointment key={appointment.id}>
-                <span>
-                  <FiClock />
-                  {appointment.hourFormatted}
-                </span>
+            <Section>
+              <strong>Manhã</strong>
 
-                <div>
-                  <img
-                    src={
-                      appointment.user.avatar_url ||
-                      'https://icon-library.net/images/no-profile-pic-icon/no-profile-pic-icon-27.jpg'
-                    }
-                    alt={appointment.user.name}
-                  />
+              {morningAppoitments.length === 0 && (
+                <p>Nenhum agendamento neste período</p>
+              )}
 
-                  <strong>{appointment.user.name}</strong>
-                </div>
-              </Appointment>
-            ))}
-          </Section>
-        </Schedule>
-        <Calendar>
-          <DayPicker
-            weekdaysShort={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
-            fromMonth={new Date()}
-            disabledDays={[{ daysOfWeek: [0, 6] }, ...disabledDays]}
-            modifiers={{
-              available: { daysOfWeek: [1, 2, 3, 4, 5] },
-            }}
-            onMonthChange={handleMonthChange}
-            selectedDays={selectedDate}
-            onDayClick={handleDateChange}
-            months={[
-              'Janeiro',
-              'Fevereiro',
-              'Março',
-              'Abril',
-              'Maio',
-              'Junho',
-              'Julho',
-              'Agosto',
-              'Setembro',
-              'Outubro',
-              'Novembro',
-              'Dezembro',
-            ]}
-          />
-        </Calendar>
-      </Content>
+              {morningAppoitments.map(appointment => (
+                <Appointment key={appointment.id}>
+                  <span>
+                    <FiClock />
+                    {appointment.hourFormatted}
+                  </span>
+
+                  <div>
+                    <img
+                      src={
+                        appointment.user.avatar_url ||
+                        'https://icon-library.net/images/no-profile-pic-icon/no-profile-pic-icon-27.jpg'
+                      }
+                      alt={appointment.user.name}
+                    />
+
+                    <strong>{appointment.user.name}</strong>
+                  </div>
+                </Appointment>
+              ))}
+            </Section>
+
+            <Section>
+              <strong>Tarde</strong>
+
+              {afternoonAppoitments.length === 0 && (
+                <p>Nenhum agendamento neste período</p>
+              )}
+
+              {afternoonAppoitments.map(appointment => (
+                <Appointment key={appointment.id}>
+                  <span>
+                    <FiClock />
+                    {appointment.hourFormatted}
+                  </span>
+
+                  <div>
+                    <img
+                      src={
+                        appointment.user.avatar_url ||
+                        'https://icon-library.net/images/no-profile-pic-icon/no-profile-pic-icon-27.jpg'
+                      }
+                      alt={appointment.user.name}
+                    />
+
+                    <strong>{appointment.user.name}</strong>
+                  </div>
+                </Appointment>
+              ))}
+            </Section>
+          </Schedule>
+          <Calendar>
+            <DayPicker
+              weekdaysShort={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
+              fromMonth={new Date()}
+              disabledDays={[{ daysOfWeek: [0, 6] }, ...disabledDays]}
+              modifiers={{
+                available: { daysOfWeek: [1, 2, 3, 4, 5] },
+              }}
+              onMonthChange={handleMonthChange}
+              selectedDays={selectedDate}
+              onDayClick={handleDateChange}
+              months={[
+                'Janeiro',
+                'Fevereiro',
+                'Março',
+                'Abril',
+                'Maio',
+                'Junho',
+                'Julho',
+                'Agosto',
+                'Setembro',
+                'Outubro',
+                'Novembro',
+                'Dezembro',
+              ]}
+            />
+          </Calendar>
+        </Content>
+      )}
     </Container>
   );
 };

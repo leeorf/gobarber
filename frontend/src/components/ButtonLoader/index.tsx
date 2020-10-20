@@ -3,7 +3,7 @@ import { FiLoader } from 'react-icons/fi';
 
 import { Container } from './styles';
 
-const Loader: React.FC = () => {
+const ButtonLoader: React.FC = () => {
   return (
     <Container>
       <FiLoader size={20} />
@@ -11,4 +11,4 @@ const Loader: React.FC = () => {
   );
 };
 
-export default Loader;
+export default ButtonLoader;

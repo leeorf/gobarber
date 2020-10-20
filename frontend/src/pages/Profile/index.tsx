@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useRef } from 'react';
+import React, { ChangeEvent, useCallback, useRef, useState } from 'react';
 import { FiMail, FiUser, FiLock, FiCamera, FiArrowLeft } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
@@ -26,6 +26,7 @@ interface ProfileFormData {
 }
 
 const Profile: React.FC = () => {
+  const [buttonEnable, setButtonEnable] = useState(false);
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
   const history = useHistory();
@@ -49,6 +50,21 @@ const Profile: React.FC = () => {
       }
     },
     [addToast, updateUser],
+  );
+
+  const handleInputChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      if (
+        e.target.value === user.name ||
+        e.target.value === user.email ||
+        e.target.value === ''
+      ) {
+        setButtonEnable(false);
+      } else {
+        setButtonEnable(true);
+      }
+    },
+    [user],
   );
 
   const handleSubmit = useCallback(
@@ -160,29 +176,44 @@ const Profile: React.FC = () => {
 
           <h1>Meu Perfil</h1>
 
-          <Input name="name" icon={FiUser} placeholder="Nome" />
-          <Input name="email" icon={FiMail} placeholder="E-mail" />
+          <Input
+            name="name"
+            icon={FiUser}
+            placeholder="Nome"
+            onChange={handleInputChange}
+          />
+          <Input
+            name="email"
+            icon={FiMail}
+            placeholder="E-mail"
+            onChange={handleInputChange}
+          />
 
           <Input
             name="password"
             icon={FiLock}
             type="password"
             placeholder="Nova senha"
+            onChange={handleInputChange}
           />
           <Input
             name="password_confirmation"
             icon={FiLock}
             type="password"
             placeholder="Confirmar senha"
+            onChange={handleInputChange}
           />
           <Input
             name="old_password"
             icon={FiLock}
             type="password"
             placeholder="Senha atual"
+            onChange={handleInputChange}
           />
 
-          <Button type="submit">Confirmar mudanças</Button>
+          <Button type="submit" disabled={!buttonEnable}>
+            Confirmar mudanças
+          </Button>
         </Form>
       </Content>
     </Container>

@@ -21,7 +21,7 @@ interface ForgotPasswordFormData {
 }
 
 const ForgotPassword: React.FC = () => {
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<FormHandles>(null);
 
   const { addToast } = useToast();
@@ -29,7 +29,7 @@ const ForgotPassword: React.FC = () => {
   const handleSubmit = useCallback(
     async (data: ForgotPasswordFormData) => {
       try {
-        setLoading(true);
+        setIsLoading(true);
 
         // Set erros to an empty object every time we try to do a valadition
         // otherwise when we get sucess, we will not change de error messages
@@ -72,7 +72,7 @@ const ForgotPassword: React.FC = () => {
          * enter the "try" or "catch"
          */
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     },
     [addToast],
@@ -88,7 +88,7 @@ const ForgotPassword: React.FC = () => {
 
             <Input name="email" icon={FiMail} placeholder="E-mail" />
 
-            <Button loading={loading} type="submit">
+            <Button loading={isLoading} type="submit">
               Recuperar senha
             </Button>
           </Form>

@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
@@ -22,6 +22,7 @@ interface SignInFormData {
 }
 
 const SignIn: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<FormHandles>(null);
   const history = useHistory();
 
@@ -30,6 +31,7 @@ const SignIn: React.FC = () => {
 
   const handleSubmit = useCallback(
     async (data: SignInFormData) => {
+      setIsLoading(true);
       try {
         // Set erros to an empty object every time we try to do a valadition
         // otherwise when we get sucess, we will not change de error messages
@@ -63,6 +65,8 @@ const SignIn: React.FC = () => {
           title: 'Usuário ou senha incorreto',
           description: 'Ocorreu um erro ao fazer login, cheque as credenciais',
         });
+      } finally {
+        setIsLoading(false);
       }
     },
     [signIn, addToast, history],
@@ -84,7 +88,9 @@ const SignIn: React.FC = () => {
               placeholder="Senha"
             />
 
-            <Button type="submit">Entrar</Button>
+            <Button type="submit" loading={isLoading}>
+              Entrar
+            </Button>
 
             <Link to="/forgot-password">Esqueci minha senha</Link>
           </Form>

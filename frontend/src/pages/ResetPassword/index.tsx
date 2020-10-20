@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import { FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
@@ -22,6 +22,7 @@ interface ResetPasswordFormData {
 }
 
 const SignIn: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<FormHandles>(null);
   const history = useHistory();
   // useLocation is used to access the URL query
@@ -31,6 +32,7 @@ const SignIn: React.FC = () => {
 
   const handleSubmit = useCallback(
     async (data: ResetPasswordFormData) => {
+      setIsLoading(true);
       try {
         // Set erros to an empty object every time we try to do a valadition
         // otherwise when we get sucess, we will not change de error messages
@@ -79,6 +81,8 @@ const SignIn: React.FC = () => {
           title: 'Erro ao resetar senha',
           description: 'Ocorreu um erro ao resetar sua senha, tente novamente.',
         });
+      } finally {
+        setIsLoading(false);
       }
     },
     [addToast, history, location.search],
@@ -105,7 +109,9 @@ const SignIn: React.FC = () => {
               placeholder="Confirmação da nova senha"
             />
 
-            <Button type="submit">Alterar senha</Button>
+            <Button type="submit" loading={isLoading}>
+              Alterar senha
+            </Button>
           </Form>
         </AnimationContainer>
       </Content>

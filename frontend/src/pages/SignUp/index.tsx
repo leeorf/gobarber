@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { FiArrowLeft, FiMail, FiUser, FiLock } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
@@ -25,12 +25,14 @@ interface SignUpFormData {
 }
 
 const SignUp: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
   const history = useHistory();
 
   const handleSubmit = useCallback(
     async (data: SignUpFormData) => {
+      setIsLoading(true);
       try {
         // Set erros to an empty object every time we try to do a valadition
         // otherwise when we get sucess, we will not change de error messages
@@ -68,6 +70,8 @@ const SignUp: React.FC = () => {
           title: 'Erro no cadastro',
           description: 'Ocorreu um erro ao fazer cadastro, tente novamente',
         });
+      } finally {
+        setIsLoading(false);
       }
     },
     [addToast, history],
@@ -91,7 +95,9 @@ const SignUp: React.FC = () => {
               placeholder="Senha"
             />
 
-            <Button type="submit">Cadastrar</Button>
+            <Button type="submit" loading={isLoading}>
+              Cadastrar
+            </Button>
           </Form>
 
           <Link to="/">

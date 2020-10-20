@@ -14,6 +14,6 @@ export const Container = styled.div`
         transform: rotate(360deg);
       }
     }
-    animation: 1s linear infinite loading;
+    animation: 1.5s linear infinite loading;
   }
 `;
