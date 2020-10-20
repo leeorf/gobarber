@@ -27,18 +27,22 @@ Customers can choose the best time to schedule a service.
 Barbers can track and manage all their appointments.
 
 - [ ] *In Progress:*</br>
-~~Too see the *web client*, click here: [GoBarber Web](../frontend)~~.</br>
+Too see the **web client**, click here: [GoBarber Web](../frontend).</br>
 ~~Too see the *mobile client*, click here: [GoBarber Mobile](../mobile).~~
 
 # :space_invader: Technologies
 
 Technologies used to develop the API:
+- [AWS SDK](https://aws.amazon.com/sdk-for-node-js/)
+- [bcryptjs](https://github.com/dcodeIO/bcrypt.js)
 - [Celebrate](https://github.com/arb/celebrate)
 - [Class Transformer](https://github.com/typestack/class-transformer)
+- [CORS](https://github.com/expressjs/cors)
 - [Date-fns](https://date-fns.org)
 - [Docker](https://www.docker.com)
 - [Express](https://expressjs.com)
 - [Handlebars](https://handlebarsjs.com)
+- [Jest](https://jestjs.io)
 - [JSON Web Token (JWT)](https://jwt.io)
 - [MongoDB](https://www.mongodb.com)
 - [Multer](https://github.com/expressjs/multer)
@@ -51,6 +55,11 @@ Technologies used to develop the API:
 - [TypeORM](https://typeorm.io/#/)
 - [TypeScript](https://www.typescriptlang.org)
 - [uuid v4](https://github.com/thenativeweb/uuidv4)
+
+Tools used to standardize code:
+- [EditorConfig](https://editorconfig.org)
+- [ESLint](https://eslint.org)
+- [Prettier](https://prettier.io)
 
 # :traffic_light: API Endpoints
 
