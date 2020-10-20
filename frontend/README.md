@@ -22,7 +22,7 @@
 # :open_file_folder: Table of contents
 - [About the project](#scissors-about-the-project)
 - [Technologies](#space_invader-technologies)
-- [Running the Frontend](#gear-running-the-frontend)
+- [Running the Frontend](#computer-running-the-frontend)
 
 # :scissors: About the project
 Website where barbers can track and manage all their appointments.
