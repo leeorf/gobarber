@@ -26,8 +26,8 @@ Customers can choose the best time to schedule a service.
 
 Barbers can track and manage all their appointments.
 
-- [ ] *In Progress:*</br>
 Too see the **web client**, click here: [GoBarber Web](../frontend).</br>
+- [ ] *In Progress:*</br>
 ~~Too see the *mobile client*, click here: [GoBarber Mobile](../mobile).~~
 
 # :space_invader: Technologies
