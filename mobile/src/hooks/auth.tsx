@@ -9,9 +9,16 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { Platform } from 'react-native';
 import { apiIOS, apiAndroid } from '../services/api';
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  avatar_url: string;
+}
+
 interface AuthState {
   token: string;
-  user: object;
+  user: User;
 }
 
 interface SignInCredentials {
@@ -20,7 +27,7 @@ interface SignInCredentials {
 }
 
 interface AuthContextInterface {
-  user: object;
+  user: User;
   loading: boolean;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
@@ -42,6 +49,15 @@ export const AuthProvider: React.FC = ({ children }) => {
       ]);
 
       if (token[1] && user[1]) {
+        /**
+         * Here we are automatically defining a default header with name authorization
+         * that will be apllied in every request done now and then
+         */
+        (Platform.OS === 'ios'
+          ? apiIOS
+          : apiAndroid
+        ).defaults.headers.authorization = `Beared ${token[1]}`;
+
         setData({
           token: token[1],
           user: JSON.parse(user[1]),
@@ -72,6 +88,15 @@ export const AuthProvider: React.FC = ({ children }) => {
       ['@GoBarber:token', token],
       ['@GoBarber:user', JSON.stringify(user)],
     ]);
+
+    /**
+     * Here we are automatically defining a default header with name authorization
+     * that will be apllied in every request done now and then
+     */
+    (Platform.OS === 'ios'
+      ? apiIOS
+      : apiAndroid
+    ).defaults.headers.authorization = `Beared ${token}`;
 
     setData({ token, user });
   }, []);

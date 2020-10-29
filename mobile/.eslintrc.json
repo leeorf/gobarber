@@ -29,6 +29,8 @@
         "prettier"
     ],
     "rules": {
+      "camelcase": "off",
+      "react/jsx-one-expression-per-line": "off",
       "consistent-return": "off",
       "no-unused-expressions": "off",
       "@typescript-eslint/ban-types": "off",
