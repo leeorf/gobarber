@@ -69,7 +69,7 @@ $ cd frontend
 # Install the dependencies
 $ yarn
 
-# Be sure the file 'src/services/api.ts' have the IP to your API
+# Be sure the file 'src/services/api.ts' have your API URL
 
 # Start the client
 $ yarn start
