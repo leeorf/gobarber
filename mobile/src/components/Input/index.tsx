@@ -51,6 +51,9 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
     focus() {
       inputElementRef.current.focus();
     },
+    onChangeText() {
+      inputElementRef.current.value;
+    },
   }));
 
   useEffect(() => {

@@ -10,6 +10,8 @@ export const Container = styled(RectButton)`
 
   justify-content: center;
   align-items: center;
+
+  opacity: ${props => (props.enabled ? 1 : 0.3)};
 `;
 
 export const ButtonText = styled.Text`
