@@ -10,7 +10,10 @@ import Routes from './routes';
 
 const App: React.FC = () => (
   <NavigationContainer>
-    <StatusBar barStyle="light-content" backgroundColor="#312e38" />
+    {/* With translucent we tell that the height of the status bar on Android
+    does not count as a content
+    */}
+    <StatusBar barStyle="light-content" backgroundColor="#312e38" translucent />
     <AppProvider>
       <View style={{ flex: 1, backgroundColor: '#312e38' }}>
         <Routes />

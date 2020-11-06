@@ -29,6 +29,9 @@
         "prettier"
     ],
     "rules": {
+      "import/no-duplicates": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "react/jsx-wrap-multilines": "off",
       "camelcase": "off",
       "react/jsx-one-expression-per-line": "off",
       "consistent-return": "off",

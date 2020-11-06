@@ -34,7 +34,7 @@ const SignUp: React.FC = () => {
 
   interface SignUpFormData {
     name: string;
-    email: strigng;
+    email: string;
     password: string;
   }
 

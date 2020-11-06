@@ -12,13 +12,19 @@ export const Container = styled.View`
 
 export const Header = styled.View`
   padding: 24px;
-  padding-top: ${24 + (Platform.OS === 'ios' ? getStatusBarHeight() : 0)}px;
+  /* With translucent={true} on StatusBar component */
+  padding-top: ${getStatusBarHeight() + 24}px;
+  /* With translucent={false} on StatusBar component */
+/*padding-top: ${24 + (Platform.OS === 'ios' ? getStatusBarHeight() : 0)}px; */
   background: #28262e;
 
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 `;
+
+// Use this to debug on Flipper and find the component on React DevTools
+Header.displayName = 'DashboardHeader';
 
 export const HeaderTitle = styled.Text`
   color: #f4ede8;

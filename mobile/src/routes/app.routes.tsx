@@ -18,7 +18,11 @@ const AppRoutes: React.FC = () => (
   >
     <App.Screen name="Dashboard" component={Dashboard} />
     <App.Screen name="CreateAppointment" component={CreateAppointment} />
-    <App.Screen name="AppointmentCreated" component={AppointmentCreated} />
+    <App.Screen
+      name="AppointmentCreated"
+      component={AppointmentCreated}
+      options={{ gestureEnabled: false }}
+    />
 
     <App.Screen name="Profile" component={Profile} />
   </App.Navigator>

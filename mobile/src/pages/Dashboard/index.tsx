@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Platform } from 'react-native';
+import { Platform, RefreshControl } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 
@@ -33,8 +33,9 @@ export interface Provider {
 
 const Dashboard: React.FC = () => {
   const [providers, setProviders] = useState<Provider[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const { navigate } = useNavigation();
 
   useEffect(() => {
@@ -46,9 +47,8 @@ const Dashboard: React.FC = () => {
   }, []);
 
   const navigateToProfile = useCallback(() => {
-    signOut();
-    // navigate('Profile');
-  }, [signOut]);
+    navigate('Profile');
+  }, [navigate]);
 
   const navigateToCreateAppointment = useCallback(
     (providerId: string) => {
@@ -56,6 +56,17 @@ const Dashboard: React.FC = () => {
     },
     [navigate],
   );
+
+  const handleRefreshing = useCallback(async () => {
+    setRefreshing(true);
+
+    const { data } = await (Platform.OS === 'ios' ? apiIOS : apiAndroid).get(
+      '/providers',
+    );
+    setProviders(data);
+
+    setRefreshing(false);
+  }, []);
 
   return (
     <Container>
@@ -68,9 +79,7 @@ const Dashboard: React.FC = () => {
         <ProfileButton onPress={navigateToProfile}>
           <UserAvatar
             source={{
-              uri:
-                user.avatar_url ||
-                'https://icon-library.net/images/no-profile-pic-icon/no-profile-pic-icon-27.jpg',
+              uri: user.avatar_url,
             }}
           />
         </ProfileButton>
@@ -79,21 +88,27 @@ const Dashboard: React.FC = () => {
       <ProvidersList
         data={providers}
         contentContainerStyle={{
-          paddingBottom: getBottomSpace() + 16,
+          paddingBottom: getBottomSpace() + 32,
         }}
         ListHeaderComponent={
           <ProvidersListTitle>Cabeleireiros</ProvidersListTitle>
         }
         keyExtractor={provider => provider.id}
+        refreshControl={
+          <RefreshControl
+            onRefresh={handleRefreshing}
+            refreshing={refreshing}
+            colors={['white', 'red']}
+            tintColor="#f4ede8"
+          />
+        }
         renderItem={({ item: provider }) => (
           <ProviderContainer
             onPress={() => navigateToCreateAppointment(provider.id)}
           >
             <ProviderAvatar
               source={{
-                uri:
-                  provider.avatar_url ||
-                  'https://icon-library.net/images/no-profile-pic-icon/no-profile-pic-icon-27.jpg',
+                uri: provider.avatar_url,
               }}
             />
 
