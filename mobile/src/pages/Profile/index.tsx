@@ -42,7 +42,7 @@ const Profile: React.FC = () => {
   const confirmPasswordInputRef = useRef<TextInput>(null);
 
   const formRef = useRef<FormHandles>(null);
-  const { navigate, goBack } = useNavigation();
+  const { goBack } = useNavigation();
 
   interface ProfileFormData {
     name: string;
@@ -125,7 +125,7 @@ const Profile: React.FC = () => {
         );
       }
     },
-    [navigate, goBack],
+    [goBack, updateUser],
   );
 
   const handleGoBack = useCallback(() => {
@@ -136,9 +136,16 @@ const Profile: React.FC = () => {
     signOut();
   }, [signOut]);
 
-  const handleInputChange = useCallback(() => {
-    setButtonEnable(true);
-  }, []);
+  const handleInputChange = useCallback(
+    (value: any) => {
+      if (value === user.name || value === user.email || value === '') {
+        setButtonEnable(false);
+      } else {
+        setButtonEnable(true);
+      }
+    },
+    [user],
+  );
 
   return (
     <>
@@ -177,7 +184,7 @@ const Profile: React.FC = () => {
                 icon="user"
                 placeholder="Nome"
                 returnKeyType="next"
-                onChange={handleInputChange}
+                handleInputChange={handleInputChange}
                 onSubmitEditing={() => {
                   emailInputRef.current?.focus();
                 }}
@@ -192,7 +199,7 @@ const Profile: React.FC = () => {
                 icon="mail"
                 placeholder="E-mail"
                 returnKeyType="next"
-                onChange={handleInputChange}
+                handleInputChange={handleInputChange}
                 onSubmitEditing={() => {
                   passwordInputRef.current?.focus();
                 }}
@@ -206,7 +213,7 @@ const Profile: React.FC = () => {
                 textContentType="newPassword"
                 containerStyle={{ marginTop: 32 }}
                 returnKeyType="next"
-                onChange={handleInputChange}
+                handleInputChange={handleInputChange}
                 onSubmitEditing={() => {
                   confirmPasswordInputRef.current?.focus();
                 }}
@@ -220,7 +227,7 @@ const Profile: React.FC = () => {
                 placeholder="Confirmar senha"
                 textContentType="newPassword"
                 returnKeyType="send"
-                onChange={handleInputChange}
+                handleInputChange={handleInputChange}
                 onSubmitEditing={() => {
                   oldPasswordInputRef.current?.focus();
                 }}
@@ -234,7 +241,7 @@ const Profile: React.FC = () => {
                 placeholder="Senha atual"
                 textContentType="newPassword"
                 returnKeyType="next"
-                onChange={handleInputChange}
+                handleInputChange={handleInputChange}
                 onSubmitEditing={() => formRef.current?.submitForm()}
               />
             </Form>

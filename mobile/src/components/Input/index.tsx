@@ -15,6 +15,7 @@ interface InputProps extends TextInputProps {
   name: string;
   icon: string;
   containerStyle?: StyleProp<TextStyle>;
+  handleInputChange?: (value: any) => void;
 }
 
 interface InputValueReference {
@@ -26,7 +27,7 @@ interface InputRef {
 }
 
 const Input: React.RefForwardingComponent<InputRef, InputProps> = (
-  { name, icon, containerStyle, ...rest },
+  { name, icon, containerStyle, handleInputChange = () => {}, ...rest },
   ref,
 ) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -47,12 +48,17 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
     setIsFilled(!!inputValueRef.current.value);
   }, []);
 
+  const handleInputChangeNative = useCallback(
+    value => {
+      inputValueRef.current.value = value;
+      handleInputChange(value);
+    },
+    [handleInputChange],
+  );
+
   useImperativeHandle(ref, () => ({
     focus() {
       inputElementRef.current.focus();
-    },
-    onChangeText() {
-      inputElementRef.current.value;
     },
   }));
 
@@ -86,9 +92,7 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
         {...rest}
         placeholderTextColor="#666360"
         defaultValue={defaultValue}
-        onChangeText={value => {
-          inputValueRef.current.value = value;
-        }}
+        onChangeText={value => handleInputChangeNative(value)}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
       />

@@ -29,6 +29,8 @@
         "prettier"
     ],
     "rules": {
+      "no-shadow": "off",
+      "@typescript-eslint/no-empty-function": "off",
       "import/no-duplicates": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "react/jsx-wrap-multilines": "off",
