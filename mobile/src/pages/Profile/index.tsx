@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import {
+  StatusBar,
   View,
   KeyboardAvoidingView,
   Platform,
@@ -12,6 +13,7 @@ import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 import Icon from 'react-native-vector-icons/Feather';
+import ImagePicker from 'react-native-image-picker';
 
 import { useAuth } from '../../hooks/auth';
 import { apiIOS, apiAndroid } from '../../services/api';
@@ -25,6 +27,8 @@ import {
   Container,
   Title,
   UserAvatarButton,
+  UserAvatarMask,
+  MaskTitle,
   UserAvatar,
   Header,
   BackButton,
@@ -136,6 +140,41 @@ const Profile: React.FC = () => {
     signOut();
   }, [signOut]);
 
+  const handleUpdateAvatar = useCallback(() => {
+    ImagePicker.showImagePicker(
+      {
+        title: 'Selecione um avatar',
+        cancelButtonTitle: 'Cancelar',
+        takePhotoButtonTitle: 'Usar câmera',
+        chooseFromLibraryButtonTitle: 'Escolher da galeria',
+      },
+      response => {
+        if (response.didCancel) {
+          return;
+        }
+
+        if (response.error) {
+          Alert.alert('Erro ao atualizar seu avatar.');
+          return;
+        }
+
+        const data = new FormData();
+
+        data.append('avatar', {
+          type: 'image/jpeg',
+          name: `${user.id}.jpg`,
+          uri: response.uri,
+        });
+
+        (Platform.OS === 'ios' ? apiIOS : apiAndroid)
+          .patch('/users/avatar', data)
+          .then(({ data: updatedUser }) => {
+            updateUser(updatedUser);
+          });
+      },
+    );
+  }, [user.id, updateUser]);
+
   const handleInputChange = useCallback(
     (value: any) => {
       if (value === user.name || value === user.email || value === '') {
@@ -149,6 +188,12 @@ const Profile: React.FC = () => {
 
   return (
     <>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="#312e38"
+        translucent={false}
+      />
+
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -168,7 +213,11 @@ const Profile: React.FC = () => {
               </SignOutButton>
             </Header>
 
-            <UserAvatarButton onPress={() => {}}>
+            <UserAvatarButton onPress={handleUpdateAvatar}>
+              <UserAvatarMask>
+                <Icon name="image" size={24} color="#999591" />
+                <MaskTitle>Alterar avatar</MaskTitle>
+              </UserAvatarMask>
               <UserAvatar source={{ uri: user.avatar_url }} />
             </UserAvatarButton>
 
@@ -211,7 +260,7 @@ const Profile: React.FC = () => {
                 icon="lock"
                 placeholder="Nova senha"
                 textContentType="newPassword"
-                containerStyle={{ marginTop: 32 }}
+                containerStyle={{ marginTop: Platform.OS === 'ios' ? 32 : 18 }}
                 returnKeyType="next"
                 handleInputChange={handleInputChange}
                 onSubmitEditing={() => {

@@ -57,7 +57,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         (Platform.OS === 'ios'
           ? apiIOS
           : apiAndroid
-        ).defaults.headers.authorization = `Beared ${token[1]}`;
+        ).defaults.headers.authorization = `Bearer ${token[1]}`;
 
         setData({
           token: token[1],
@@ -97,7 +97,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     (Platform.OS === 'ios'
       ? apiIOS
       : apiAndroid
-    ).defaults.headers.authorization = `Beared ${token}`;
+    ).defaults.headers.authorization = `Bearer ${token}`;
 
     setData({ token, user });
   }, []);
