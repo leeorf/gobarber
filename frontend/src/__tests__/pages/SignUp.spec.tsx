@@ -1,5 +1,3 @@
-import '@testing-library/jest-dom';
-
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import MockAdapter from 'axios-mock-adapter';

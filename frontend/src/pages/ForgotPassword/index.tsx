@@ -88,7 +88,11 @@ const ForgotPassword: React.FC = () => {
 
             <Input name="email" icon={FiMail} placeholder="E-mail" />
 
-            <Button loading={isLoading} type="submit">
+            <Button
+              loading={isLoading}
+              type="submit"
+              data-testid="button-element"
+            >
               Recuperar senha
             </Button>
           </Form>
