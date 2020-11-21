@@ -9,4 +9,4 @@ coverage/
 
 tmp/*
 !tmp/.gitkeep
-
+dist
