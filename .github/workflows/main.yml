@@ -42,7 +42,7 @@ jobs:
         run: yarn build
         working-directory: ${{ env.working-directory }}
         
-      - name: Copy dist from Github to Digital Ocean
+      - name: Copy all code from Github to Digital Ocean
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -50,5 +50,5 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          source: "./backend"
+          source: "./backend,!./backend/node_modules"
           target: "~/app/gobarber"
