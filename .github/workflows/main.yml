@@ -4,13 +4,11 @@ on:
   push:
     branches: [ master ]
 
-defaults:
-  run:
-    working-directory: backend
-
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./backend
 
     steps:
       - uses: actions/checkout@v2
@@ -22,9 +20,11 @@ jobs:
       
       - name: Install Yarn/NPM dependencies
         run: yarn
+        working-directory: ${{ env.working-directory }}
         
       - name: Run build
         run: yarn build
+        working-directory: ${{ env.working-directory }}
         
       - name: Copy dist from Github to Digital Ocean
         uses: appleboy/scp-action@master
@@ -34,5 +34,5 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          source: "dist"
+          source: "./backend/dist"
           target: "test"
